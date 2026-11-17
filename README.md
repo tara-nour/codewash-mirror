@@ -40,6 +40,9 @@ the Reading mini-game needs `webkitSpeechRecognition` and will not work in Firef
 A Windows `.exe` is also produced by CI on every push to `main`
 ([`build-exe.yml`](.github/workflows/build-exe.yml)) and attached to the release.
 
+Every pull request is checked by [`ci.yml`](.github/workflows/ci.yml): lint, tests with coverage,
+then build. A red run blocks the merge.
+
 > The test suite is a **characterization** suite: it records what the code currently does,
 > bugs included, so that refactoring stays reversible. It does not describe intended behaviour.
 > Coverage is low on purpose for now, and its thresholds only ever go up — see `tests/`.
