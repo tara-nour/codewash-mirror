@@ -33,11 +33,16 @@ the Reading mini-game needs `webkitSpeechRecognition` and will not work in Firef
 | `npm run electron:dev` | Build, then run the desktop app |
 | `npm run electron:build` | Package the Windows portable `.exe` (**Windows only**) |
 | `npm run lint` | ESLint |
+| `npm test` | Run the test suite once |
+| `npm run test:watch` | Run the tests in watch mode |
+| `npm run test:coverage` | Run the tests with a coverage report |
 
 A Windows `.exe` is also produced by CI on every push to `main`
 ([`build-exe.yml`](.github/workflows/build-exe.yml)) and attached to the release.
 
-> There is **no test suite yet** — building one is the first deliverable of the project.
+> The test suite is a **characterization** suite: it records what the code currently does,
+> bugs included, so that refactoring stays reversible. It does not describe intended behaviour.
+> Coverage is low on purpose for now, and its thresholds only ever go up — see `tests/`.
 
 ## Checking your setup works
 
@@ -88,8 +93,8 @@ Confirmed on the version we received — details and priorities in [`docs/DEBT.m
 - **Themes are incomplete.** 4 missing theme assets (`spy_logo.png`, `spy_memorycard.jpg`,
   `kpop_memorycard.jpg`, `pokemon_memorycard.jpg`); the Spy theme reuses the Minecraft background;
   only the Minecraft theme defines mob art.
-- **374 of the 660 tracked files are macOS `._*` junk**, and there is no `.gitignore`.
-  They are the only reason `npm run lint` fails (`npx eslint . --ignore-pattern '**/._*'` is clean).
+- ~~374 of the 660 tracked files are macOS `._*` junk, and there is no `.gitignore`~~ —
+  fixed: untracked and ignored, lint is now clean. Tracked files went from 663 to 289.
 - **Dead code:** `src/constants/assets.js` and `src/components/drawers/MenuDrawer_old.jsx` are never imported.
 - **No loading screen**, slow menu startup, and the Bug Report button opens a modal that does nothing.
 
