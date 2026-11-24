@@ -2,7 +2,39 @@
 
 > Document vivant. Chaque PR de refactoring référence un item (DEBT-xx).
 > Statuts : Open / In progress / Done / Accepted.
-> **Version 1 (incomplète).**  La carte du code, les métriques de base, la matrice de risques et le plan d'attaque seront ajoutés dans les PR suivantes.
+> **Version 1 (incomplète).**  La carte du code, la matrice de risques et le plan d'attaque seront ajoutés dans les PR suivantes.
+
+## Métriques baseline
+
+Mesurées sur `03b3be6`, le projet tel que reçu, **avant tout refactoring**.
+Rapport complet : [`docs/metrics/baseline-03b3be6.md`](metrics/baseline-03b3be6.md).
+
+| Métrique | `03b3be6` (tel que reçu) | Aujourd'hui | Outil |
+|---|---|---|---|
+| Couverture de tests | 0 % — aucun test, aucun runner | 5,22 % des lignes | `vitest` + `@vitest/coverage-v8` |
+| Complexité cyclomatique | max **107**, moyenne 2,81, 14 fonctions > 10, 5 > 20 | inchangée | `eslint`, règle `complexity` |
+| Duplication | 2,53 % (144 lignes sur 5686, 6 blocs clonés) | inchangée | `jscpd` |
+| Taille des fichiers | 24 fichiers source, 6938 lignes ; 660 fichiers suivis dont 374 `._*` | 298 fichiers suivis, 0 `._*` | `find` + `wc`, `git ls-tree` |
+
+La complexité et la duplication sont identiques parce qu'**aucune ligne de `src/` n'a encore été modifiée** : seuls l'outillage et l'hygiène du dépôt ont bougé. C'est le point de départ, pas un échec.
+
+### Comment rejouer ces mesures
+
+```bash
+npm run metrics:baseline -- 03b3be6   # le projet tel que reçu
+npm run metrics:baseline              # l'état courant
+```
+
+Le script (`scripts/metrics/baseline.sh`) extrait le commit demandé dans un worktree détaché jetable, y supprime les fichiers `._*` — binaires, ils fausseraient tout compte — puis écrit un rapport daté dans `docs/metrics/baseline-<sha>.md`. Le dépôt de travail n'est jamais touché.
+
+À rejouer après chaque refactoring majeur : les écarts avant/après sont la preuve attendue à la soutenance.
+
+### Ce que ces chiffres révèlent
+
+- **Une fonction à complexité 107** dans `src/components/skills/SkillCard.jsx:65`. Les quatre suivantes sont entre 21 et 31. À transformer en items de dette dédiés.
+- **La duplication n'est pas le problème** de ce projet : 2,53 %, c'est faible. Le poids est dans la complexité et la taille des fichiers, pas dans le copier-coller.
+- **Trois fichiers portent la moitié du code** : `App.jsx` (1492), `GlobalStyles.jsx` (1302), `SkillCard.jsx` (778) sur 6938 lignes au total.
+
 ## Registre
 
 | ID | Localisation | Smell / problème | Impact | Risque | Effort | Priorité | Statut |

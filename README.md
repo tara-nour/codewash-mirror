@@ -36,6 +36,7 @@ the Reading mini-game needs `webkitSpeechRecognition` and will not work in Firef
 | `npm test` | Run the test suite once |
 | `npm run test:watch` | Run the tests in watch mode |
 | `npm run test:coverage` | Run the tests with a coverage report |
+| `npm run metrics:baseline` | Measure the four baseline metrics on any commit |
 
 A Windows `.exe` is also produced by CI on every push to `main`
 ([`build-exe.yml`](.github/workflows/build-exe.yml)) and attached to the release.
@@ -46,6 +47,24 @@ then build. A red run blocks the merge.
 > The test suite is a **characterization** suite: it records what the code currently does,
 > bugs included, so that refactoring stays reversible. It does not describe intended behaviour.
 > Coverage is low on purpose for now, and its thresholds only ever go up — see `tests/`.
+
+## Measuring the codebase
+
+The subject requires four baseline metrics, captured before any refactoring and
+reproducible by anyone: test coverage, cyclomatic complexity, duplication and file sizes.
+
+```bash
+npm run metrics:baseline -- 03b3be6   # the project exactly as received
+npm run metrics:baseline              # the current state
+```
+
+The script checks the requested commit out into a throwaway detached worktree, deletes the
+macOS `._*` sidecars inside it (they are binary and would be counted as source), measures,
+and writes `docs/metrics/baseline-<sha>.md`. Your working tree is never touched.
+
+Tools, all pinned in `package.json`: `vitest` for coverage, ESLint's built-in `complexity`
+rule, `jscpd` for duplication, `find`/`wc`/`git ls-tree` for sizes. The numbers and what they
+mean live in [`docs/DEBT.md`](docs/DEBT.md).
 
 ## Checking your setup works
 
