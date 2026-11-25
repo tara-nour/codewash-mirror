@@ -2,7 +2,21 @@
 
 > Document vivant. Chaque PR de refactoring référence un item (DEBT-xx).
 > Statuts : Open / In progress / Done / Accepted.
-> **Version 1 (incomplète).**  La carte du code, les métriques de base, la matrice de risques et le plan d'attaque seront ajoutés dans les PR suivantes.
+> **Version 1 (incomplète).**  Les métriques de base, la matrice de risques et le plan d'attaque seront ajoutés dans les PR suivantes.
+
+## Carte du code
+
+La cartographie exigée par le sujet — modules, graphe de dépendances, où vit l'état, où se
+font les I/O — vit dans son propre document : **[`docs/CODEBASE-MAP.md`](CODEBASE-MAP.md)**.
+
+Ce qu'elle établit, et qui oriente le reste du registre :
+
+- `App.jsx` est le point de passage obligé : 1492 lignes, 31 états, 16 imports internes, 27 accès au stockage
+- Les règles du jeu ne sont pas isolables en l'état : 23 `Math.random` dans `gameUtils`, une horloge dans `achievementUtils`
+- Le stockage n'a aucune abstraction : 9 clés `localStorage`, 2 schémas de nommage, une clé héritée migrée à la volée
+- Deux fichiers morts entretiennent la confusion sur ce qui fait autorité
+- Aucune dépendance circulaire, et la couche `constants/` est purement déclarative : la base est saine
+
 ## Registre
 
 | ID | Localisation | Smell / problème | Impact | Risque | Effort | Priorité | Statut |

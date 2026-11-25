@@ -105,6 +105,7 @@ Confirmed on the version we received — details and priorities in [`docs/DEBT.m
 
 | Document | Status |
 |---|---|
+| [`docs/CODEBASE-MAP.md`](docs/CODEBASE-MAP.md) — modules, dependency graph, state and I/O | available |
 | [`docs/MICROPHONE_FEATURE.md`](docs/MICROPHONE_FEATURE.md) — voice input in the Reading game | available |
 | `docs/DEBT.md` — technical debt register, metrics, attack plan | planned |
 | `docs/adr/` — architecture decision records | planned |
