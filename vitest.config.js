@@ -16,10 +16,10 @@ export default defineConfig({
       // can only go up. Raise them with every batch of tests.
       // Lowering one is debt: record it in docs/DEBT.md with the reason.
       thresholds: {
-        lines: 5,
-        functions: 4.7,
-        branches: 1.5,
-        statements: 4.7,
+        lines: 11.8,
+        functions: 13.8,
+        branches: 6.4,
+        statements: 11.2,
       },
     },
   },
