@@ -45,7 +45,25 @@ then build. A red run blocks the merge.
 
 > The test suite is a **characterization** suite: it records what the code currently does,
 > bugs included, so that refactoring stays reversible. It does not describe intended behaviour.
-> Coverage is low on purpose for now, and its thresholds only ever go up — see `tests/`.
+> Coverage thresholds only ever go up — see `tests/`.
+
+### Writing a component test
+
+Tests run in `happy-dom` with `@testing-library/react`. `tests/setup.js` wires the
+`jest-dom` matchers, unmounts whatever a test rendered, and resets `localStorage`
+between cases, so every test starts from a blank slate.
+
+```jsx
+import { render, screen } from '@testing-library/react'
+import App from '../src/App'
+
+render(<App />)
+expect(localStorage.getItem('currentProfile_v1')).toBe('1')
+```
+
+`tests/profileFlow.characterization.test.jsx` is the worked example: it renders the whole
+application and asserts what it writes to storage. Copy that pattern rather than inventing
+one — especially for a mission, where every line added owes a test.
 
 ## Checking your setup works
 
